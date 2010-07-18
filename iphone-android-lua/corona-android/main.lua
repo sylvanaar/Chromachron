@@ -1,7 +1,4 @@
 
-local rotationCorrection = 15
-
-
 local fills = { 
 	[0] = {179,164,87 ,255},
 	[1] = {221,71,31 ,255},
@@ -17,32 +14,19 @@ local fills = {
 	[11] = {120,81,39 ,255},
 }
 
-local fill = display.newRect(0,0, display.stageWidth,display.stageHeight)
+local fill = display.newRect(0,0, display.contentWidth, display.contentHeight)
 fill:setFillColor(128, 128,128,255)
 
-local backplate = display.newImage("underring.png")
-backplate.xOrigin=240
-backplate.xScale=0.925
-backplate.yScale=0.925
+local backplate = display.newImage("background.png")
+--backplate.xOrigin=240
 
-local background = display.newImage("background.png")
-background.xOrigin=240
-background.rotation=rotationCorrection
+local background = display.newImage("colorwheel.png")
+--background.xOrigin=240
 
+local pie = display.newImage("topplate.png")
 
 
 
-local pie = display.newImage("topplate-outer.png")
-pie.xOrigin=240
-pie.yOrigin=385
-pie.xScale=0.80
-pie.yScale=0.80
-
-local seconds_pie = display.newImage("topplate-inner.png")
-seconds_pie.xOrigin=240
-seconds_pie.yOrigin=385
-seconds_pie.xScale=0.75
-seconds_pie.yScale=0.75
 
 local _12HOURS = 12*60
 local function getRotationForTime(h,m,dst)
@@ -52,13 +36,13 @@ local function getRotationForTime(h,m,dst)
 	
 	local ratio = m/_12HOURS
 	
-	return 360*ratio - rotationCorrection
+	return 360*ratio
 end
 
 local function getRotationForTimeSec(s)
 	local ratio = s / 60
 	
-	return 360*ratio - rotationCorrection
+	return 360*ratio
 end
 
 local xTime = {time=500 }
@@ -91,12 +75,32 @@ local function displayTime()
 	--displaySec(tm)
 end
 
+local frameCount = 0
 
-local function onMinutesDrawn()
-	timer.performWithDelay( 500, displayTime )
-end
+-- This function is called for every frame
+-- 
+--**********************************************
+local function updateCount()
+--**********************************************
+        frameCount = frameCount+1
+ 
+        
+        if ((frameCount % 15) == 0) then
+			displayTime()
+        end
+        
+end -- updateCount
+ 
+Runtime:addEventListener( "enterFrame", updateCount )
 
-xTime.onComplete = onMinutesDrawn
+
+
+
+--local function onMinutesDrawn()
+--	timer.performWithDelay( 500, displayTime )
+--end
+
+--xTime.onComplete = onMinutesDrawn
 
 
 

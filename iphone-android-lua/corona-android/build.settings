@@ -1,0 +1,9 @@
+settings = {
+	android = {
+		versionCode = "3"
+	},
+	
+	orientation = {
+		default = "portrait",
+	},
+}
